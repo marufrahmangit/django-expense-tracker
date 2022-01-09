@@ -1,0 +1,39 @@
+{% extends 'app/base.html' %}
+{% block title %}Expense Detail{% endblock title %}
+
+{% block content %}
+
+{% load humanize %}
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <p class="font-secondary paragraph-lg text-dark">Expense Details</p>
+                <p class="font-secondary">
+                    <a class="btn btn-xs btn-link" href="{% url 'expenditure_list' %}">
+                        Go Back To All Expenses
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <p>Item: {{ expenditure.item }}</p>
+                <p>Date: {{ expenditure.date }}</p>
+                <p>Amount spent:৳ {{ expenditure.amount|intcomma }}</p>
+                <p>Remarks: {{ expenditure.remarks }}</p>
+                <p>Logged by: {{ expenditure.author }}</p>
+
+                <a class="btn btn-xs btn-primary" href="{% url 'expenditure_edit' pk=expenditure.pk %}">
+                    Edit
+                </a>
+                <a class="btn btn-xs btn-danger" href="{% url 'expenditure_remove' pk=expenditure.pk %}">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

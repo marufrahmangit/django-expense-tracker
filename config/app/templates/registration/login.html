@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mx-auto">
+                <h2 class="font-secondary">Please Login</h2>
+                <p><em>* You have to be an admin approved user</em></p>
+
+                {% if form.errors %}
+                <p>Your username or password is invalid</p>
+                {% endif %}
+
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" class="btn btn-xs btn-primary" value="Login">
+                    <input type="hidden" name="next" value="{{ next }}">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+{% block title %}Bank Detail{% endblock title %}
+
+{% block content %}
+
+{% load humanize %}
+
+<section class="section">
+    <div class="container">
+        {% if not user.is_authenticated %}
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <p class="font-secondary paragraph-lg text-dark">
+                    You have to <a href="{% url 'login' %}">login</a> as an admin to see this!
+                </p>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+                <p class="font-secondary paragraph-lg text-dark">Bank Details</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                {% for bank in banks %}
+                <p>Bank Name: {{ bank.name }}</p>
+                <p>Account Owner: {{ bank.owner }}</p>
+                <p>Total Remaining Balance: <b style="color:red">৳ {{ rem_bal|intcomma }}</b>
+                    as of {{ date_today }}</p>
+                <!-- <p>Opening Balance: {{ bank.opening_bal }}</p>-->
+                <br>
+                {% if user.is_superuser %}
+                <a class="btn btn-xs btn-primary" href="{% url 'bank_edit' pk=bank.pk %}">
+                    Edit
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock content %}
