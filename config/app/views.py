@@ -37,9 +37,11 @@ class ExpenditureListView(LoginRequiredMixin, ListView):
         filter = ExpenditureFilter(self.request.GET, queryset)
 
         context["filter"] = filter
-        context['total'] = float(Expenditure.objects.aggregate(Sum('amount')).get('amount__sum', 0.00))
-        context['current_month_total'] = float(Expenditure.objects.filter(date__year=self.today.year, date__month=self.today.month).aggregate(Sum('amount')).get('amount__sum', 0.00))
-
+        try:
+            context['total'] = float(Expenditure.objects.aggregate(Sum('amount')).get('amount__sum', 0.00))
+            context['current_month_total'] = float(Expenditure.objects.filter(date__year=self.today.year, date__month=self.today.month).aggregate(Sum('amount')).get('amount__sum', 0.00))
+        except Exception:
+            return None
         return context
 
 
